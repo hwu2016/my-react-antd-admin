@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
-import { Button, message } from 'antd'
+import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
+import Admin from './pages/Admin'
+import Login from './pages/Login'
+import 'normalize.css'
 
-export default class App extends Component {
-    handleClick = () => {
-        message.success('success!', 3)
-    }
-    
+export default class App extends Component {  
     render() {
         return (
             <div>
-                <Button onClick={this.handleClick} type="primary">Hi</Button>
+                <Router>
+                    <Routes>
+                        <Route path='/login' element={<Login/>}/>
+                        <Route path='/admin' element={<Admin/>}/>
+                        <Route path="*" element={<Navigate to="/login" />} />
+                    </Routes>
+                </Router>
             </div>
         )
     }
