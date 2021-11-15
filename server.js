@@ -27,7 +27,7 @@ app.all('/login', (request, response) => {
             const data = {'username': username, 'password': password}
             const result = await db.collection('users').find(data).toArray()
             if (result.length === 1){
-                response.send({'status': 0, 'user': result[0].username})
+                response.send({'status': 0, 'user': result[0]})
             } else {
                 response.send({'status': 1, 'msg': '用户名或密码输入错误'})
             }

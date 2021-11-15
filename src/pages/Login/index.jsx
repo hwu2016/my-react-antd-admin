@@ -4,10 +4,19 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { reqLogin } from '../../api'
 import { Navigate } from 'react-router';
 import './index.css'
+import storageUtils from '../../utils/storageUtils';
+import memoryUtils from '../../utils/memoryUtils';
 
 export default class Login extends Component {
   state = {
     user: null,
+  }
+
+  componentDidMount(){
+    const {user} = memoryUtils
+    if (user && user._id) {
+      this.setState({user: user})
+    }
   }
 
   render() {
@@ -16,14 +25,16 @@ export default class Login extends Component {
     const NormalLoginForm = () => {
       const onFinish = async (values) => {
         //请求登陆
-        const { username, password } = values
+        const { username, password} = values
         const response = await reqLogin(username, password)
-        const { status } = response.data
+        const { status, user ,msg} = response.data
         if (status === 0) {
-          message.success('登陆成功，欢迎' + response.data.user)
-          this.setState({ user: response.data.user })
+          message.success('登陆成功，欢迎' + user.username)
+          memoryUtils.user = user
+          storageUtils.saveUser(user)
+          this.setState({ user: user })
         } else {
-          message.error(response.data.msg)
+          message.error(msg)
         }
       };
 
@@ -91,7 +102,7 @@ export default class Login extends Component {
     return (
       <div>
         {this.state.user && (
-          <Navigate to='/admin' replace='true' />
+          <Navigate to='/home' replace={true} />
         )}
         <Layout>
           <Header style={{ color: 'white', backgroundColor: '#59064a' }}>商品后台管理系统</Header>

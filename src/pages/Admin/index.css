@@ -1,0 +1,11 @@
+.logo {
+    height: 32px;
+    margin: 16px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+}
