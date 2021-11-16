@@ -1,0 +1,14 @@
+.head-welcome{
+    float: right;
+    margin-right: 30px;
+}
+
+.head-welcome .welcome{
+    float: left;
+    margin-right: 20px;
+}
+
+.head-weather span{
+    float: right;
+    margin-right: 30px
+}
