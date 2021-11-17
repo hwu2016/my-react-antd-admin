@@ -5,11 +5,13 @@
 import { message } from "antd";
 import ajax from "./ajax";
 
+const BASE_URL = 'http://127.0.0.1:8000'
+
 //登陆
-export const reqLogin = (username, password) => ajax('http://127.0.0.1:8000/login', {username, password}, 'POST')
+export const reqLogin = (username, password) => ajax(BASE_URL + '/login', {username, password}, 'POST')
 
 //添加用户
-export const reqAddUser = (user) => ajax('http://127.0.0.1:8000/manage/user/add', user, 'POST')
+export const reqAddUser = (user) => ajax(BASE_URL + '/manage/user/add', user, 'POST')
 
 //查询天气
 export const reqWeather = (city) => {
@@ -29,3 +31,12 @@ export const reqWeather = (city) => {
         })
     })
 }
+
+//获取一级二级分类列表
+export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/list', {parentId})
+
+//添加分类
+export const reqAddCategory = (categoryName, parentId) => ajax(BASE_URL + '/manage/category/add', {categoryName, parentId}, 'POST')
+
+//更新分类
+export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '/manage/category/update', {categoryName, categoryId}, 'POST')

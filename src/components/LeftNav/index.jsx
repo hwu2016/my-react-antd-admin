@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import menuList from '../../config/menuConfig';
+import PubSub from 'pubsub-js'
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -34,13 +35,19 @@ export default class LeftNav extends Component {
                 return (
                     (
                         <Menu.Item key={item.key} icon={item.icon}>
-                            <Link to={item.key}>{item.title}</Link>
+                            <Link to={item.key} onClick={this.saveMenuItem(item)}>{item.title}</Link>
                         </Menu.Item>
                     )
                 )
             }
         })
     }   
+
+    saveMenuItem = (item) => {
+        return () => {
+            PubSub.publish('menuItem', item)
+        }
+    }
 
     render() {
         const menuNodes = this.createMenuNodes(menuList)
