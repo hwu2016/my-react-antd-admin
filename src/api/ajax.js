@@ -10,15 +10,26 @@ import axios from "axios";
 export default function ajax(url, data={}, type='GET'){
     return new Promise ((res, rej) => {
         let promise
-        if(type === 'GET'){
-            promise = axios.get(url, {params: data})
-        } else {
-            promise = axios.post(url, data)
+        switch (type) {
+            case 'GET':
+                promise = axios.get(url, {params: data})
+                break
+            case 'POST':
+                promise = axios.post(url, data)
+                break
+            case 'PUT':
+                promise = axios.put(url, data)
+                break
+            case 'DELETE':
+                promise = axios.delete(url, {params: data})
+                break
+            default:
+                message.error('获取信息失败：无法识别的请求类型')
         }
         promise.then(response => {
             res(response)
         }).catch(error => {
-            message.error('Connection error:' + error.message)
+            message.error('获取信息失败：' + error.message)
         })
     })
 }

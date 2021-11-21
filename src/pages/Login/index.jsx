@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Button, Form, Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { reqLogin } from '../../api'
-import { Navigate } from 'react-router';
+import { Navigate } from 'react-router-dom';
 import './index.css'
 import storageUtils from '../../utils/storageUtils';
 import memoryUtils from '../../utils/memoryUtils';

@@ -2,10 +2,11 @@
 包括n个接口请求函数的模块
 每个函数返回promise
 */
-import { message } from "antd";
-import ajax from "./ajax";
 
-const BASE_URL = 'http://127.0.0.1:8000'
+import { message } from "antd";
+import ajax from "./ajax.js";
+
+const BASE_URL = 'http://localhost:3000/api'
 
 //登陆
 export const reqLogin = (username, password) => ajax(BASE_URL + '/login', {username, password}, 'POST')
@@ -39,4 +40,7 @@ export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/lis
 export const reqAddCategory = (categoryName, parentId) => ajax(BASE_URL + '/manage/category/add', {categoryName, parentId}, 'POST')
 
 //更新分类
-export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '/manage/category/update', {categoryName, categoryId}, 'POST')
+export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '/manage/category/update', {categoryName, categoryId}, 'PUT')
+
+//删除分类
+export const reqDeleteCategory = (categoryId) => ajax(BASE_URL + '/manage/category/delete', {categoryId}, 'DELETE')
