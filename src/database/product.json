@@ -1,0 +1,51 @@
+[{
+        "status": 1,
+        "imgs": [],
+        "name": "iPhoneX",
+        "description": "辣鸡中的战斗机，苹果系列最差产品，没有之一，耗电快，打不了游戏",
+        "price": 5300,
+        "pCategoryId": "6195ffb120ffc30d5bd4c7c7",
+        "categoryId": "619777b833f09aa0fcaacec8",
+        "detail": ""
+    },
+    {
+        "status": 0,
+        "imgs": [],
+        "name": "iPhone12",
+        "description": "比X好用不少，但是怎么会有十三香？",
+        "price": 6300,
+        "pCategoryId": "6195ffb120ffc30d5bd4c7c7",
+        "categoryId": "619777b833f09aa0fcaacec8",
+        "detail": ""
+    },
+    {
+        "status": 1,
+        "imgs": [],
+        "name": "iPhone13",
+        "description": "万众期待的新产品，还是十三香！",
+        "price": 7300,
+        "pCategoryId": "6195ffb120ffc30d5bd4c7c7",
+        "categoryId": "619777b833f09aa0fcaacec8",
+        "detail": ""
+    },
+    {
+        "status": 1,
+        "imgs": [],
+        "name": "iPhone4s",
+        "description": "乔布斯在世最后神作，已成时代的眼泪，性价比之王",
+        "price": 1500,
+        "pCategoryId": "6195ffb120ffc30d5bd4c7c7",
+        "categoryId": "619777b833f09aa0fcaacec8",
+        "detail": ""
+    },
+    {
+        "status": 1,
+        "imgs": [],
+        "name": "iPhone6 Plus",
+        "description": "传说中卖肾也要买的手机，现在居然已经不值多少钱了，卖肾的朋友后悔吗？",
+        "price": 2300,
+        "pCategoryId": "6195ffb120ffc30d5bd4c7c7",
+        "categoryId": "619777b833f09aa0fcaacec8",
+        "detail": ""
+    }
+]

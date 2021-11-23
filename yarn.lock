@@ -2582,7 +2582,7 @@ arrify@^2.0.1:
   resolved "https://registry.npmjs.org/arrify/-/arrify-2.0.1.tgz"
   integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
-asap@~2.0.6:
+asap@~2.0.3, asap@~2.0.6:
   version "2.0.6"
   resolved "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
@@ -3808,6 +3808,11 @@ core-js@^2.4.0:
   resolved "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
+core-js@^3.6.4:
+  version "3.19.1"
+  resolved "https://registry.npmmirror.com/core-js/download/core-js-3.19.1.tgz#f6f173cae23e73a7d88fa23b6e9da329276c6641"
+  integrity sha1-9vFzyuI+c6fYj6I7bp2jKSdsZkE=
+
 core-js@^3.6.5:
   version "3.9.0"
   resolved "https://registry.npmjs.org/core-js/-/core-js-3.9.0.tgz"
@@ -3904,6 +3909,13 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/create-require/download/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
+
+cross-fetch@^3.0.4:
+  version "3.1.4"
+  resolved "https://registry.npmmirror.com/cross-fetch/download/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
+  integrity sha1-lyPzo6JHv4uJA586OAqSROj6Lzk=
+  dependencies:
+    node-fetch "2.6.1"
 
 cross-spawn@7.0.3, cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
@@ -4551,6 +4563,15 @@ dotenv@8.2.0:
   version "8.2.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
+draft-js@^0.11.7:
+  version "0.11.7"
+  resolved "https://registry.nlark.com/draft-js/download/draft-js-0.11.7.tgz#be293aaa255c46d8a6647f3860aa4c178484a206"
+  integrity sha1-vik6qiVcRtimZH84YKpMF4SEogY=
+  dependencies:
+    fbjs "^2.0.0"
+    immutable "~3.7.4"
+    object-assign "^4.1.1"
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -5276,6 +5297,25 @@ fb-watchman@^2.0.0:
   integrity sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==
   dependencies:
     bser "2.1.1"
+
+fbjs-css-vars@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/fbjs-css-vars/download/fbjs-css-vars-1.0.2.tgz#216551136ae02fe255932c3ec8775f18e2c078b8"
+  integrity sha1-IWVRE2rgL+JVkyw+yHdfGOLAeLg=
+
+fbjs@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/fbjs/download/fbjs-2.0.0.tgz?cache=0&sync_timestamp=1635211932924&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ffbjs%2Fdownload%2Ffbjs-2.0.0.tgz#01fb812138d7e31831ed3e374afe27b9169ef442"
+  integrity sha1-AfuBITjX4xgx7T43Sv4nuRae9EI=
+  dependencies:
+    core-js "^3.6.4"
+    cross-fetch "^3.0.4"
+    fbjs-css-vars "^1.0.0"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
 
 figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -6104,6 +6144,11 @@ immer@8.0.1:
   version "8.0.1"
   resolved "https://registry.nlark.com/immer/download/immer-8.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fimmer%2Fdownload%2Fimmer-8.0.1.tgz"
   integrity sha1-nHPbaD4rOXXEJPsFcq9YiYd65lY=
+
+immutable@~3.7.4:
+  version "3.7.6"
+  resolved "https://registry.npmmirror.com/immutable/download/immutable-3.7.6.tgz?cache=0&sync_timestamp=1633651544502&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fimmutable%2Fdownload%2Fimmutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
+  integrity sha1-E7TTyxK++hVIKib+Gy665kAHHks=
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -7998,6 +8043,11 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.npmmirror.com/node-fetch/download/node-fetch-2.6.1.tgz?cache=0&sync_timestamp=1636395435525&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fnode-fetch%2Fdownload%2Fnode-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha1-BFvTI2Mfdu0uK1VXM5RBa2OaAFI=
+
 node-forge@^0.10.0:
   version "0.10.0"
   resolved "https://registry.npmjs.org/node-forge/-/node-forge-0.10.0.tgz"
@@ -9449,6 +9499,13 @@ promise-inflight@^1.0.1:
   resolved "https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise@^7.1.1:
+  version "7.3.1"
+  resolved "https://registry.nlark.com/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
+  integrity sha1-BktyYCsY+Q8pGSuLG8QY/9Hr078=
+  dependencies:
+    asap "~2.0.3"
+
 promise@^8.1.0:
   version "8.1.0"
   resolved "https://registry.npmjs.org/promise/-/promise-8.1.0.tgz"
@@ -10871,7 +10928,7 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-setimmediate@^1.0.4:
+setimmediate@^1.0.4, setimmediate@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
@@ -11900,6 +11957,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+ua-parser-js@^0.7.18:
+  version "0.7.31"
+  resolved "https://registry.npmmirror.com/ua-parser-js/download/ua-parser-js-0.7.31.tgz?cache=0&sync_timestamp=1635347166400&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fua-parser-js%2Fdownload%2Fua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
+  integrity sha1-ZJplaxkd/6tPIdXgU+J8oXy/9cY=
 
 undefsafe@^2.0.5:
   version "2.0.5"

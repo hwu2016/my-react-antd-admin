@@ -5,8 +5,7 @@
 
 import { message } from "antd";
 import ajax from "./ajax.js";
-
-const BASE_URL = 'http://localhost:3000/api'
+import { BASE_URL, WEATHER_API_KEY} from "../utils/constant.js";
 
 //登陆
 export const reqLogin = (username, password) => ajax(BASE_URL + '/login', {username, password}, 'POST')
@@ -17,8 +16,7 @@ export const reqAddUser = (user) => ajax(BASE_URL + '/manage/user/add', user, 'P
 //查询天气
 export const reqWeather = (city) => {
     return new Promise((res, rej) => {
-        const API_key = '49e9e209a1e21f37e9d876656cea684e'
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_key}&lang=zh_cn`
+        const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&lang=zh_cn`
         const request = ajax(url, {}, 'GET')
         request.then(response => {
             if (response.data.id) {
@@ -34,7 +32,7 @@ export const reqWeather = (city) => {
 }
 
 //获取一级二级分类列表
-export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/list', {parentId})
+export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/list', {parentId}, 'GET')
 
 //添加分类
 export const reqAddCategory = (categoryName, parentId) => ajax(BASE_URL + '/manage/category/add', {categoryName, parentId}, 'POST')
@@ -44,3 +42,19 @@ export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '
 
 //删除分类
 export const reqDeleteCategory = (categoryId) => ajax(BASE_URL + '/manage/category/delete', {categoryId}, 'DELETE')
+
+//获取商品分页列表
+export const reqProducts = (pageNum, pageSize) => ajax(BASE_URL + '/manage/product/pages', {pageNum, pageSize}, 'GET') 
+
+//搜索商品分页列表
+export const reqSearchProducts = (pageNum, pageSize, searchKey, searchType) => ajax(BASE_URL + '/manage/product/search', {
+    pageNum,
+    pageSize,
+    [searchType]: searchKey
+}, 'GET')
+
+//获取指定商品的分类
+export const reqTargetCategory = (pCategoryId, categoryId) => ajax(BASE_URL + '/manage/category/targetInfo', {pCategoryId, categoryId}, 'GET')
+
+//更新上下架状态
+export const reqUpdateStatus = (productId, status) => ajax(BASE_URL + '/manage/product/status', {productId, status}, 'PUT')

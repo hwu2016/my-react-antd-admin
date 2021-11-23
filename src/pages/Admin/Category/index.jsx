@@ -34,15 +34,15 @@ export default class Category extends Component {
     addCategory = () => {
         const p = this.addForm.current.formRef.current.validateFields()
         p.then(async () => {
-                this.setState({ isModalVisible: 0 })
-                const categoryName = this.addForm.current.formRef.current.getFieldValue('categoryName')
-                const parentId = this.addForm.current.formRef.current.getFieldValue('parentId')
-                const result = await reqAddCategory(categoryName, parentId)
-                if (result.data.status === 0) {
-                    if (parentId === this.state.parentId) {
-                        this.getCategories() //显示新列表
-                    }
+            this.setState({ isModalVisible: 0 })
+            const categoryName = this.addForm.current.formRef.current.getFieldValue('categoryName')
+            const parentId = this.addForm.current.formRef.current.getFieldValue('parentId')
+            const result = await reqAddCategory(categoryName, parentId)
+            if (result.data.status === 0) {
+                if (parentId === this.state.parentId) {
+                    this.getCategories() //显示新列表
                 }
+            }
         }).catch(err => console.log(err))
     };
 
@@ -90,14 +90,16 @@ export default class Category extends Component {
                     render: (_, category) => (
                         <div>
                             <Button type='link' onClick={this.showUpdateModal(category)}>修改分类</Button>
-                            {this.state.parentId === '0' ? <Button type='link' onClick={this.getSubcategories(category)}>查看子分类</Button> : null}
+                            {this.state.parentId === '0' ?
+                                <Button type='link' onClick={this.getSubcategories(category)}>查看子分类</Button> : 
+                                null}
                             <Popconfirm
                                 title="确认删除这个分类吗?"
                                 onConfirm={this.deleteCategory(category)}
                                 okText="确认删除"
                                 cancelText="取消"
                             >
-                                <Button type='link'>删除分类</Button>
+                                <Button type='link' danger>删除分类</Button>
                             </Popconfirm>
                         </div>
                     )

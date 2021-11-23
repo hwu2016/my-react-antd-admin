@@ -7,7 +7,7 @@
 import { message } from "antd";
 import axios from "axios";
 
-export default function ajax(url, data={}, type='GET'){
+export default function ajax(url, data={}, type){
     return new Promise ((res, rej) => {
         let promise
         switch (type) {
@@ -24,7 +24,7 @@ export default function ajax(url, data={}, type='GET'){
                 promise = axios.delete(url, {params: data})
                 break
             default:
-                message.error('获取信息失败：无法识别的请求类型')
+                promise = new Promise((res, rej) => {})
         }
         promise.then(response => {
             res(response)
