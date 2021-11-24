@@ -176,6 +176,38 @@ app.delete('/manage/category/delete', (request, response) => {
     deleteCategory();
 })
 
+
+//获取所有分类
+app.get('/manage/category/listAll', (request, response) => {
+    async function showAllCategoryList() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const result = await db.collection('manage_category').find({}).toArray()
+            const allResults = result.map((item) => {
+                return {
+                    parentId: item.parentId,
+                    _id: item._id,
+                    name: item.name,
+                }
+            })
+            if (result.length) {
+                response.send({
+                    status: 0,
+                    data: allResults
+                })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    }
+    showAllCategoryList();
+})
+
 //获取产品
 app.get('/manage/product/pages', (request, response) => {
     const { pageNum, pageSize } = request.query
@@ -293,6 +325,32 @@ app.put('/manage/product/status', (request, response) => {
     updateProductStatus();
 })
 
+//添加产品
+app.post('/manage/product/add', (request, response) => {
+    const {categoryId, pCategoryId, name, price, description, imgs, detail} = request.body.product
+    async function addProduct() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const data = { categoryId, pCategoryId, name, price, description, imgs, detail, status: 0}
+            const result = await db.collection('manage_product').insertOne(data)
+            if (result.insertedId) {
+                response.send({
+                    status: 0,
+                    data
+                })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    }
+    addProduct();
+})
+
 //得到指定数组的分页信息对象
 function pageFilter(arr, pageNum, pageSize) {
     pageNum = pageNum * 1
@@ -314,6 +372,7 @@ function pageFilter(arr, pageNum, pageSize) {
         list
     }
 }
+
 
 app.listen(8000, () => {
     console.log(`Server Starts, listening to port 8000...`)
