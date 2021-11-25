@@ -43,6 +43,9 @@ export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '
 //删除分类
 export const reqDeleteCategory = (categoryId) => ajax(BASE_URL + '/manage/category/delete', {categoryId}, 'DELETE')
 
+//获取所有分类
+export const reqAllCategories = () => ajax(BASE_URL + '/manage/category/listAll', {}, 'GET')
+
 //获取商品分页列表
 export const reqProducts = (pageNum, pageSize) => ajax(BASE_URL + '/manage/product/pages', {pageNum, pageSize}, 'GET') 
 
@@ -58,3 +61,6 @@ export const reqTargetCategory = (pCategoryId, categoryId) => ajax(BASE_URL + '/
 
 //更新上下架状态
 export const reqUpdateStatus = (productId, status) => ajax(BASE_URL + '/manage/product/status', {productId, status}, 'PUT')
+
+//添加商品
+export const reqAddProduct = (product) => ajax(BASE_URL + '/manage/product/add', {product}, 'POST')

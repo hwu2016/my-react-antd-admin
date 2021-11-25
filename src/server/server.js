@@ -6,7 +6,8 @@ const { MongoClient, ObjectId } = require('mongodb')
 const url = "mongodb://localhost:27017"
 const client = new MongoClient(url);
 
-
+//声明使用静态中间件
+app.use(express.static('public'))
 //处理http request表单数据
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -131,29 +132,6 @@ app.put('/manage/category/update', (request, response) => {
     updateCategory();
 })
 
-//更新一级分类
-app.put('/manage/category/update', (request, response) => {
-    const { categoryName, categoryId } = request.body
-    async function updateCategory() {
-        try {
-            await client.connect();
-            const db = client.db(dbName);
-            const data = { name: categoryName }
-            const result = await db.collection('manage_category').updateOne({ _id: ObjectId(categoryId) }, { $set: data })
-            if (result.modifiedCount !== 0) {
-                response.send({ status: 0 })
-            } else {
-                response.send({ status: 1 })
-            }
-        } catch (e) {
-            console.error(e);
-        } finally {
-            await client.close();
-        }
-    }
-    updateCategory();
-})
-
 //删除分类 删除一级分类需要修改！！！
 app.delete('/manage/category/delete', (request, response) => {
     const { categoryId } = request.query
@@ -207,6 +185,29 @@ app.get('/manage/category/listAll', (request, response) => {
     }
     showAllCategoryList();
 })
+
+
+//得到指定数组的分页信息对象
+function pageFilter(arr, pageNum, pageSize) {
+    pageNum = pageNum * 1
+    pageSize = pageSize * 1
+    const total = arr.length
+    const pages = Math.floor((total + pageSize - 1) / pageSize)
+    const start = pageSize * (pageNum - 1)
+    const end = start + pageSize <= total ? start + pageSize : total
+    const list = []
+    for (let i = start; i < end; i++) {
+        list.push(arr[i])
+    }
+
+    return {
+        pageNum,
+        total,
+        pages,
+        pageSize,
+        list
+    }
+}
 
 //获取产品
 app.get('/manage/product/pages', (request, response) => {
@@ -327,12 +328,12 @@ app.put('/manage/product/status', (request, response) => {
 
 //添加产品
 app.post('/manage/product/add', (request, response) => {
-    const {categoryId, pCategoryId, name, price, description, imgs, detail} = request.body.product
+    const { categoryId, pCategoryId, name, price, description, imgs, detail } = request.body.product
     async function addProduct() {
         try {
             await client.connect();
             const db = client.db(dbName);
-            const data = { categoryId, pCategoryId, name, price, description, imgs, detail, status: 0}
+            const data = { categoryId, pCategoryId, name, price, description, imgs, detail, status: 0 }
             const result = await db.collection('manage_product').insertOne(data)
             if (result.insertedId) {
                 response.send({
@@ -351,27 +352,100 @@ app.post('/manage/product/add', (request, response) => {
     addProduct();
 })
 
-//得到指定数组的分页信息对象
-function pageFilter(arr, pageNum, pageSize) {
-    pageNum = pageNum * 1
-    pageSize = pageSize * 1
-    const total = arr.length
-    const pages = Math.floor((total + pageSize - 1) / pageSize)
-    const start = pageSize * (pageNum - 1)
-    const end = start + pageSize <= total ? start + pageSize : total
-    const list = []
-    for (let i = start; i < end; i++) {
-        list.push(arr[i])
+//更新产品
+app.put('/manage/product/update', (request, response) => {
+    const { categoryId, pCategoryId, name, price, description, imgs, detail, _id } = request.body.product
+    async function updateProduct() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const filter = { _id: ObjectId(_id) }
+            const data = { categoryId, pCategoryId, name, price, description, imgs, detail }
+            const result = await db.collection('manage_product').updateOne(filter, { $set: data })
+            if (result.modifiedCount) {
+                response.send({ status: 0 })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
     }
+    updateProduct();
+})
 
-    return {
-        pageNum,
-        total,
-        pages,
-        pageSize,
-        list
+
+/*
+处理文件上传的路由
+ */
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
+
+const dirPath = path.join(__dirname, 'public', 'upload')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) { //函数需手动创建文件夹
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdir(dirPath, function (err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    cb(null, dirPath)
+                }
+            })
+        } else {
+            cb(null, dirPath)
+        }
+    },
+    filename: function (req, file, cb) {
+        var ext = path.extname(file.originalname)
+        cb(null, file.fieldname + '-' + Date.now() + ext)
     }
-}
+})
+const upload = multer({ storage })
+const uploadSingle = upload.single('image')
+
+//上传图片
+app.post('/manage/img/upload', (req, res) => {
+    uploadSingle(req, res, function (err) { //错误处理
+        if (err) {
+            return res.send({
+                status: 1,
+                msg: '上传文件失败'
+            })
+        }
+        let file = req.file
+        res.send({
+            status: 0,
+            data: {
+                name: file.filename,
+                url: 'http://localhost:8000/upload/'+ file.filename
+            }
+        })
+
+    })
+})
+
+//删除图片
+app.post('/manage/img/delete', (req, res) => {
+    const { name } = req.body
+    fs.unlink(path.join(dirPath, name), (err) => {
+        if (err) {
+            console.log(err)
+            res.send({
+                status: 1,
+                msg: '删除文件失败'
+            })
+        } else {
+            res.send({
+                status: 0
+            })
+        }
+    })
+})
 
 
 app.listen(8000, () => {

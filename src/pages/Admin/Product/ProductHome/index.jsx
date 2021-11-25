@@ -71,7 +71,11 @@ export default class ProductHome extends Component {
                                         详情信息
                                     </Link>
                                 </Button>
-                                <Button type='link'>修改信息</Button>
+                                <Button type='link'>
+                                    <Link to='/product/operation' state={product}>
+                                        修改信息
+                                    </Link>
+                                </Button>
                             </span>
                         )
                     }
@@ -86,7 +90,7 @@ export default class ProductHome extends Component {
             const result = await reqUpdateStatus(_id, status)
             if (result.data.status === 0) {
                 message.success('商品状态更新成功')
-                this.getProducts(this.cur)
+                this.getProducts(this.curPageNum)
             } else {
                 message.error('商品状态更新失败')
             }
