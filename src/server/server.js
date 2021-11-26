@@ -430,21 +430,75 @@ app.post('/manage/img/upload', (req, res) => {
 })
 
 //删除图片
-app.post('/manage/img/delete', (req, res) => {
-    const { name } = req.body
+app.post('/manage/img/delete', (request, response) => {
+    const { name } = request.body
     fs.unlink(path.join(dirPath, name), (err) => {
         if (err) {
             console.log(err)
-            res.send({
+            response.send({
                 status: 1,
                 msg: '删除文件失败'
             })
         } else {
-            res.send({
+            response.send({
                 status: 0
             })
         }
     })
+})
+
+//展示权限管理角色列表
+app.get('/manage/permission/roleList', (request, response) => {
+    async function showRoleList() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const res = await db.collection('manage_permission').find({}).toArray()
+            if (res) {
+                response.send({
+                    status: 0,
+                    data: res
+                })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    }
+    showRoleList();
+})
+
+//添加角色
+app.post('/manage/permission/add', (request, response) => {
+    const { name } = request.body
+    async function addRole() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const data = { 
+                name,
+                menus: [],
+                create_time: Date.now()
+            }
+            const result = await db.collection('manage_permission').insertOne(data)
+            if (result.insertedId) {
+                response.send({
+                    status: 0,
+                    data
+                })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    }
+    addRole();
 })
 
 

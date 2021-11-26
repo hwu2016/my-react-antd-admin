@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { Card, Form, Input, Cascader, Button, message, } from 'antd'
 import { LeftCircleOutlined } from '@ant-design/icons'
 import { Link, useLocation } from 'react-router-dom'
-import { reqAddProduct, reqAllCategories } from '../../../../api'
+import { reqAddProduct, reqAllCategories, reqUpdateProduct } from '../../../../api'
 import { Navigate } from 'react-router-dom'
+import PicUpload from './PicUpload'
+import RichText from './RichText'
 
 const { Item } = Form
 const { TextArea } = Input
@@ -21,6 +23,8 @@ const withRouter = WrappedComponent => props => {
 
 class ProductOperation extends Component {
     formRef = React.createRef()
+    picWallRef = React.createRef()
+    editorRef = React.createRef()
 
     state = {
         options: [],
@@ -69,17 +73,34 @@ class ProductOperation extends Component {
         const { name, price, description } = allFields
         const pCategoryId = allFields.category[0]
         const categoryId = allFields.category[1]
+        const imgs = this.picWallRef.current.getImgs()
+        const detail = this.editorRef.current.getDetail()
         //发送ajax请求
-        const product = {
-            name,
-            price,
-            description,
-            pCategoryId,
-            categoryId,
-            imgs: [],
-            detail: '',
+        let response, product
+        if(isUpdate){
+            product = {
+                name,
+                price,
+                description,
+                pCategoryId,
+                categoryId,
+                imgs,
+                detail,
+                _id: this.props.location.state._id
+            }
+            response = await reqUpdateProduct(product)
+        } else {
+            product = {
+                name,
+                price,
+                description,
+                pCategoryId,
+                categoryId,
+                imgs,
+                detail,
+            }
+            response = await reqAddProduct(product)
         }
-        const response = await reqAddProduct(product)
         //返回home并更新页面
         if (response.data.status === 0) {
             message.success(`${isUpdate ? '更新' : '添加'}商品成功`)
@@ -168,14 +189,17 @@ class ProductOperation extends Component {
                     <Item
                         label="商品图片"
                         name="imgs"
+                        rules={[]}
                     >
-
+                        <PicUpload ref={this.picWallRef} imgs={imgs}/>
                     </Item>
                     <Item
                         label="商品详情"
                         name="detail"
+                        rules={[]}
+                        wrapperCol={{ span: 15 }}
                     >
-
+                        <RichText ref={this.editorRef} detail={detail}/>
                     </Item>
                     <Item>
                         <span>

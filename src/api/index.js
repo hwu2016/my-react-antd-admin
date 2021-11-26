@@ -5,13 +5,10 @@
 
 import { message } from "antd";
 import ajax from "./ajax.js";
-import { BASE_URL, WEATHER_API_KEY} from "../utils/constant.js";
+import { BASE_URL, WEATHER_API_KEY } from "../utils/constant.js";
 
 //登陆
 export const reqLogin = (username, password) => ajax(BASE_URL + '/login', {username, password}, 'POST')
-
-//添加用户
-export const reqAddUser = (user) => ajax(BASE_URL + '/manage/user/add', user, 'POST')
 
 //查询天气
 export const reqWeather = (city) => {
@@ -64,3 +61,15 @@ export const reqUpdateStatus = (productId, status) => ajax(BASE_URL + '/manage/p
 
 //添加商品
 export const reqAddProduct = (product) => ajax(BASE_URL + '/manage/product/add', {product}, 'POST')
+
+//更新商品
+export const reqUpdateProduct = (product) => ajax(BASE_URL + '/manage/product/update', {product}, 'PUT')
+
+//删除图片
+export const reqDeleteImg = (name) => ajax(BASE_URL + '/manage/img/delete', {name}, 'POST')
+
+//获取角色列表
+export const reqRoleList = () => ajax(BASE_URL + '/manage/permission/roleList', {}, 'GET')
+
+//添加角色
+export const reqAddRole = (name) => ajax(BASE_URL + '/manage/permission/add', {name}, 'POST')

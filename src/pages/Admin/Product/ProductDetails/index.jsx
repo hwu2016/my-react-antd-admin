@@ -3,7 +3,8 @@ import { LeftCircleOutlined } from '@ant-design/icons'
 import React, { Component } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { reqTargetCategory } from '../../../../api'
-// import { BASE_IMG_URL } from '../../../../utils/constant';
+import { BASE_IMG_URL } from '../../../../utils/constant';
+import './index.css'
 
 const { Item } = List
 
@@ -25,21 +26,21 @@ class ProductDetails extends Component {
     }
 
     async componentDidMount() {
-        const {pCategoryId, categoryId} = this.props.location.state
+        const { pCategoryId, categoryId } = this.props.location.state
         const result = await reqTargetCategory(pCategoryId, categoryId)
         if (result.data.status === 0) {
-            const {pCategoryName, categoryName} = result.data.data
-            this.setState({pCategoryName, categoryName})
+            const { pCategoryName, categoryName } = result.data.data
+            this.setState({ pCategoryName, categoryName })
         } else {
-            const {msg} = result.data
+            const { msg } = result.data
             message.error(msg)
         }
     }
 
     render() {
-        const { name, description, price, detail , imgs} = this.props.location.state
+        const { name, description, price, detail, imgs } = this.props.location.state
 
-        const {pCategoryName, categoryName} = this.state
+        const { pCategoryName, categoryName } = this.state
 
         const title = (
             <span>
@@ -76,12 +77,23 @@ class ProductDetails extends Component {
                     </Item>
                     <Item>
                         <span>
-                            <b>商品图片：</b>{imgs}
+                            <b>商品图片：</b>
+                            {
+                                imgs.map(img => (
+                                    <img
+                                        key={img}
+                                        src={BASE_IMG_URL + img}
+                                        className="product-img"
+                                        alt="img"
+                                    />
+                                ))
+                            }
                         </span>
                     </Item>
                     <Item>
                         <span>
-                            <b>商品详情：</b>{detail}
+                            <b>商品详情：</b>
+                            <span dangerouslySetInnerHTML={{__html: detail}}></span>
                         </span>
                     </Item>
                 </List>
