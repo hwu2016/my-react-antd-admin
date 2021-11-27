@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Button, Form, Input, Checkbox, message } from 'antd'
+import { Layout, Button, Form, Input, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { reqLogin } from '../../api'
 import { Navigate } from 'react-router-dom';
@@ -47,7 +47,7 @@ export default class Login extends Component {
           }}
           onFinish={onFinish}
         >
-          <h3 style={{ textAlign: 'center' }}>用户登录</h3>
+          <h3 style={{ textAlign: 'center', lineHeight: '50px' }}>用户登录</h3>
           <Form.Item
             name="username"
             validateFirst={true}
@@ -84,16 +84,14 @@ export default class Login extends Component {
               placeholder="密码"
             />
           </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>记住我</Checkbox>
-            </Form.Item>
-          </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
               登陆
             </Button>
+          </Form.Item>
+          <Form.Item>
+            <i style={{color: 'gray'}}>测试模式：请使用admin/admin登陆</i>
           </Form.Item>
         </Form>
       );

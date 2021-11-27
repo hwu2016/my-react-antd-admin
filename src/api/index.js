@@ -73,3 +73,9 @@ export const reqRoleList = () => ajax(BASE_URL + '/manage/permission/roleList', 
 
 //添加角色
 export const reqAddRole = (name) => ajax(BASE_URL + '/manage/permission/add', {name}, 'POST')
+
+//设置角色权限
+export const reqSetPerm = (role) => ajax(BASE_URL + '/manage/permission/setPerm', role, 'PUT')
+
+//删除角色
+export const reqDeleteRole = (_id) => ajax(BASE_URL + '/manage/permission/delete', {_id}, 'DELETE')

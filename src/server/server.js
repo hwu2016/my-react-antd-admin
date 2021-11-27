@@ -132,14 +132,16 @@ app.put('/manage/category/update', (request, response) => {
     updateCategory();
 })
 
-//删除分类 删除一级分类需要修改！！！
+//删除分类
 app.delete('/manage/category/delete', (request, response) => {
     const { categoryId } = request.query
     async function deleteCategory() {
         try {
             await client.connect();
             const db = client.db(dbName);
-            const result = await db.collection('manage_category').deleteOne(({ _id: ObjectId(categoryId) }))
+            const result = await db.collection('manage_category').deleteMany({
+                $or:[{ _id: ObjectId(categoryId) }, { parentId: categoryId }]
+            })
             if (result.deletedCount > 0) {
                 response.send({ status: 0 })
             } else {
@@ -499,6 +501,59 @@ app.post('/manage/permission/add', (request, response) => {
         }
     }
     addRole();
+})
+
+//设置角色权限
+app.put('/manage/permission/setPerm', (request, response) => {
+    const role = request.body
+    async function setRolePerm (){
+        try {
+            await client.connect()
+            const db = client.db(dbName)
+            const {_id, menus, auth_name, auth_time} = role
+            const result = await db.collection('manage_permission').updateOne({_id: ObjectId(_id)}, {$set:{
+                menus, 
+                auth_time,
+                auth_name
+            }})
+            if (result.modifiedCount){
+                response.send({
+                    status: 0,
+                    data: {...role}
+                })
+            } else {
+                response.send({status: 1})
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            await client.close()
+        }
+    }
+    setRolePerm()
+
+})
+
+//删除角色
+app.delete('/manage/permission/delete', (request, response) => {
+    const { _id } = request.query
+    async function deleteRole (){
+        try {
+            await client.connect()
+            const db = client.db(dbName)
+            const result = await db.collection('manage_permission').deleteOne({_id: ObjectId(_id)})
+            if (result.deletedCount){
+                response.send({status: 0})
+            } else {
+                response.send({status: 1})
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            await client.close()
+        }
+    }
+    deleteRole()
 })
 
 
