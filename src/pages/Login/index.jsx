@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import './index.css'
 import storageUtils from '../../utils/storageUtils';
 import memoryUtils from '../../utils/memoryUtils';
+import {v_username, v_password} from '../../utils/formValidate'
 
 export default class Login extends Component {
   state = {
@@ -42,41 +43,21 @@ export default class Login extends Component {
         <Form
           name="normal_login"
           className="login-form"
-          initialValues={{
-            remember: true,
-          }}
+          validateTrigger='onBlur'
           onFinish={onFinish}
         >
           <h3 style={{ textAlign: 'center', lineHeight: '50px' }}>用户登录</h3>
           <Form.Item
             name="username"
-            validateFirst={true}
-            rules={[
-              { required: true, whitespace: true, message: '请输入用户名!', },
-              { min: 4, message: '用户名至少四位!', },
-              { max: 12, message: '用户名最多十二位!', },
-              { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名由英文数字和下划线组成!', },
-            ]}
+            validateFirst
+            rules={v_username}
           >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
           </Form.Item>
           <Form.Item
             name="password"
-            validateFirst={true}
-            rules={[
-              { required: true, whitespace: true, message: '请输入密码!', },
-              { min: 4, message: '密码至少四位!', },
-              { max: 12, message: '密码最多十二位!', },
-              //自定义验证
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (/^[a-zA-Z0-9_=-]+$/.test(getFieldValue('password')) === true) {
-                    return Promise.resolve()
-                  }
-                  return Promise.reject(new Error('密码由英文数字和下划线组成!'))
-                }
-              }),
-            ]}
+            validateFirst
+            rules={v_password}
           >
             <Input
               prefix={<LockOutlined className="site-form-item-icon" />}

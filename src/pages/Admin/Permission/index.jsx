@@ -6,6 +6,7 @@ import AddForm from './AddForm'
 import PermForm from './PermForm'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import memoryUtils from '../../../utils/memoryUtils'
+import formatTime from '../../../utils/formatTime'
 
 const {confirm} = Modal
 
@@ -17,7 +18,7 @@ export default class Permission extends Component {
         roles: [],
         columns: [],
         role: {},
-        isModalVisible: 0
+        isModalVisible: 0 // 0 -> default, 1 -> addForm, 2 -> permForm
     }
 
     showAddModal = () => {
@@ -115,24 +116,12 @@ export default class Permission extends Component {
                 {
                     title: '创建时间',
                     dataIndex: 'create_time',
-                    render: (time) => {
-                        const date = new Date(parseInt(time))
-                        const year = date.getFullYear()
-                        const month = date.getMonth()
-                        const day = date.getDate()
-                        return time ? `${year}-${month}-${day}` : ''
-                    }
+                    render: formatTime
                 },
                 {
                     title: '授权时间',
                     dataIndex: 'auth_time',
-                    render: (time) => {
-                        const date = new Date(parseInt(time))
-                        const year = date.getFullYear()
-                        const month = date.getMonth()
-                        const day = date.getDate()
-                        return time ? `${year}-${month}-${day}` : ''
-                    }
+                    render: formatTime
                 },
                 {
                     title: '授权人',

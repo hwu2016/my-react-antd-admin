@@ -5,6 +5,8 @@ const app = express()
 const { MongoClient, ObjectId } = require('mongodb')
 const url = "mongodb://localhost:27017"
 const client = new MongoClient(url);
+//引入md5加密
+const md5 = require('blueimp-md5')
 
 //声明使用静态中间件
 app.use(express.static('public'))
@@ -25,7 +27,7 @@ app.post('/login', (request, response) => {
         try {
             await client.connect();
             const db = client.db(dbName);
-            const data = { username, password }
+            const data = { username, password: md5(password)}
             const result = await db.collection('users').find(data).toArray()
             if (result.length === 1) {
                 response.send({ status: 0, user: result[0] })
@@ -554,6 +556,130 @@ app.delete('/manage/permission/delete', (request, response) => {
         }
     }
     deleteRole()
+})
+
+//获取所有用户列表
+app.get('/users/list', (request, response) => {
+    async function showUserList() {
+        try {
+            await client.connect();
+            const db = client.db(dbName);
+            const users = await db.collection('users').find({}).toArray()
+            const roles = await db.collection('manage_permission').find({}).toArray()
+            if (response) {
+                response.send({
+                    status: 0,
+                    data: {
+                        users,
+                        roles
+                    }
+                })
+            } else {
+                response.send({ status: 1 })
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    }
+    showUserList();
+})
+
+//删除用户
+app.delete('/users/delete', (request, response) => {
+    const { userId } = request.query
+    async function deleteUser (){
+        try {
+            await client.connect()
+            const db = client.db(dbName)
+            const admin_check = await db.collection('users').find({_id: ObjectId(userId)}).toArray()
+            if (admin_check.length && admin_check[0].username === 'admin'){
+                response.send({status: 1, msg:'admin用户必须存在'})
+            } else {
+                const result = await db.collection('users').deleteOne({_id: ObjectId(userId)})
+                if (result.deletedCount){
+                    response.send({status: 0})
+                } else {
+                    response.send({status: 1})
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            await client.close()
+        }
+    }
+    deleteUser()   
+})
+
+//添加用户
+app.post('/users/add', (request, response) => {
+    const { username, email, phone, password, role_id} = request.body
+    async function addUser (){
+        try {
+            await client.connect()
+            const db = client.db(dbName)
+            const username_check = await db.collection('users').find({username}).toArray()
+            if (username_check.length){
+                response.send({status: 1, msg:'用户名已经存在'})
+            } else {
+                const data = {
+                    username,
+                    email,
+                    phone,
+                    password: md5(password),
+                    role_id,
+                    register_time: Date.now()
+                }
+                const result = await db.collection('users').insertOne(data)
+                if (result.insertedId){
+                    response.send({status: 0})
+                } else {
+                    response.send({status: 1})
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            await client.close()
+        }
+    }
+    addUser()   
+})
+
+//更新用户
+app.put('/users/update', (request, response) => {
+    const { username, email, phone, password, role_id, _id} = request.body
+    async function updateUser (){
+        try {
+            await client.connect()
+            const db = client.db(dbName)
+            const admin_check = await db.collection('users').find({username: 'admin'}).toArray()
+            if (admin_check[0]._id.toJSON() === _id && (username !== 'admin' || password !== md5('admin'))){
+                response.send({status: 1, msg:'admin的用户名和密码无法更改！'})
+            } else {
+                const data = {
+                    username,
+                    email,
+                    phone,
+                    password,
+                    role_id,
+                }
+                const result = await db.collection('users').updateOne({_id: ObjectId(_id)},{$set: data})
+                if (result.modifiedCount){
+                    response.send({status: 0})
+                } else {
+                    response.send({status: 1})
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            await client.close()
+        }
+    }
+    updateUser()   
 })
 
 

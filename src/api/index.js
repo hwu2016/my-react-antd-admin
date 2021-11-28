@@ -8,7 +8,7 @@ import ajax from "./ajax.js";
 import { BASE_URL, WEATHER_API_KEY } from "../utils/constant.js";
 
 //登陆
-export const reqLogin = (username, password) => ajax(BASE_URL + '/login', {username, password}, 'POST')
+export const reqLogin = (username, password) => ajax(BASE_URL + '/login', { username, password }, 'POST')
 
 //查询天气
 export const reqWeather = (city) => {
@@ -29,22 +29,22 @@ export const reqWeather = (city) => {
 }
 
 //获取一级二级分类列表
-export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/list', {parentId}, 'GET')
+export const reqCategories = (parentId) => ajax(BASE_URL + '/manage/category/list', { parentId }, 'GET')
 
 //添加分类
-export const reqAddCategory = (categoryName, parentId) => ajax(BASE_URL + '/manage/category/add', {categoryName, parentId}, 'POST')
+export const reqAddCategory = (categoryName, parentId) => ajax(BASE_URL + '/manage/category/add', { categoryName, parentId }, 'POST')
 
 //更新分类
-export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '/manage/category/update', {categoryName, categoryId}, 'PUT')
+export const reqUpdateCategory = (categoryName, categoryId) => ajax(BASE_URL + '/manage/category/update', { categoryName, categoryId }, 'PUT')
 
 //删除分类
-export const reqDeleteCategory = (categoryId) => ajax(BASE_URL + '/manage/category/delete', {categoryId}, 'DELETE')
+export const reqDeleteCategory = (categoryId) => ajax(BASE_URL + '/manage/category/delete', { categoryId }, 'DELETE')
 
 //获取所有分类
 export const reqAllCategories = () => ajax(BASE_URL + '/manage/category/listAll', {}, 'GET')
 
 //获取商品分页列表
-export const reqProducts = (pageNum, pageSize) => ajax(BASE_URL + '/manage/product/pages', {pageNum, pageSize}, 'GET') 
+export const reqProducts = (pageNum, pageSize) => ajax(BASE_URL + '/manage/product/pages', { pageNum, pageSize }, 'GET')
 
 //搜索商品分页列表
 export const reqSearchProducts = (pageNum, pageSize, searchKey, searchType) => ajax(BASE_URL + '/manage/product/search', {
@@ -54,28 +54,40 @@ export const reqSearchProducts = (pageNum, pageSize, searchKey, searchType) => a
 }, 'GET')
 
 //获取指定商品的分类
-export const reqTargetCategory = (pCategoryId, categoryId) => ajax(BASE_URL + '/manage/category/targetInfo', {pCategoryId, categoryId}, 'GET')
+export const reqTargetCategory = (pCategoryId, categoryId) => ajax(BASE_URL + '/manage/category/targetInfo', { pCategoryId, categoryId }, 'GET')
 
 //更新上下架状态
-export const reqUpdateStatus = (productId, status) => ajax(BASE_URL + '/manage/product/status', {productId, status}, 'PUT')
+export const reqUpdateStatus = (productId, status) => ajax(BASE_URL + '/manage/product/status', { productId, status }, 'PUT')
 
 //添加商品
-export const reqAddProduct = (product) => ajax(BASE_URL + '/manage/product/add', {product}, 'POST')
+export const reqAddProduct = (product) => ajax(BASE_URL + '/manage/product/add', { product }, 'POST')
 
 //更新商品
-export const reqUpdateProduct = (product) => ajax(BASE_URL + '/manage/product/update', {product}, 'PUT')
+export const reqUpdateProduct = (product) => ajax(BASE_URL + '/manage/product/update', { product }, 'PUT')
 
 //删除图片
-export const reqDeleteImg = (name) => ajax(BASE_URL + '/manage/img/delete', {name}, 'POST')
+export const reqDeleteImg = (name) => ajax(BASE_URL + '/manage/img/delete', { name }, 'POST')
 
 //获取角色列表
 export const reqRoleList = () => ajax(BASE_URL + '/manage/permission/roleList', {}, 'GET')
 
 //添加角色
-export const reqAddRole = (name) => ajax(BASE_URL + '/manage/permission/add', {name}, 'POST')
+export const reqAddRole = (name) => ajax(BASE_URL + '/manage/permission/add', { name }, 'POST')
 
 //设置角色权限
 export const reqSetPerm = (role) => ajax(BASE_URL + '/manage/permission/setPerm', role, 'PUT')
 
 //删除角色
-export const reqDeleteRole = (_id) => ajax(BASE_URL + '/manage/permission/delete', {_id}, 'DELETE')
+export const reqDeleteRole = (_id) => ajax(BASE_URL + '/manage/permission/delete', { _id }, 'DELETE')
+
+//获取所有用户列表
+export const reqUsers = () => ajax(BASE_URL + '/users/list', {}, 'GET')
+
+//删除用户
+export const reqDeleteUser = (userId) => ajax(BASE_URL + '/users/delete', { userId }, 'DELETE')
+
+//添加用户
+export const reqAddUser = (user) => ajax(BASE_URL + '/users/add', user, 'POST')
+
+//更新用户
+export const reqUpdateUser = (user) => ajax(BASE_URL + '/users/update', user, 'PUT')
