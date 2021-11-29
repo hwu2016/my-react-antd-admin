@@ -1,0 +1,37 @@
+.home-wrapper{
+    position: relative;
+    width: 100%;
+    height: 450px;
+}
+
+.greet-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.greet {
+    letter-spacing: 3px;
+    animation-duration: 1s;
+    color: #6c6c82;
+    font-weight: 530;
+}
+
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.cn {
+    font-size: 50px;
+}
+
+.en {
+    font-size: 30px;
+}

@@ -624,12 +624,15 @@ app.post('/users/add', (request, response) => {
             if (username_check.length){
                 response.send({status: 1, msg:'用户名已经存在'})
             } else {
+                const perm = await db.collection('manage_permission').find({_id: ObjectId(role_id)}).toArray()
+                const menus = perm[0].menus
                 const data = {
                     username,
                     email,
                     phone,
                     password: md5(password),
                     role_id,
+                    menus,
                     register_time: Date.now()
                 }
                 const result = await db.collection('users').insertOne(data)

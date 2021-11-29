@@ -9,6 +9,6 @@ import 'antd/dist/antd.less'
 const user = storageUtils.getUser()
 memoryUtils.user = user
 ReactDOM.render(
-    <App />,
+  <App />,
   document.getElementById('root')
 );

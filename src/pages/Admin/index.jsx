@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Navigate } from 'react-router-dom'
 import memoryUtils from '../../utils/memoryUtils'
 import { Layout } from 'antd'
+import {GithubFilled} from '@ant-design/icons'
 import LeftNav from '../../components/LeftNav'
 import Head from '../../components/Head'
 import Inner from '../../components/Inner'
@@ -25,7 +26,12 @@ export default class Admin extends Component {
                 <Layout className="site-layout">
                     <Head/>
                     <Inner/>
-                    <Footer style={{ textAlign: 'center' }}>&copy;Copyright 2021 Ryan Wu</Footer>
+                    <Footer className='footer'>
+                        <span>&copy;Copyright 2021 Ryan Wu</span>
+                        <a href='https://github.com/hwu2016/my-react-antd-admin' target='blank' style={{color: 'black'}}>
+                            <GithubFilled className='github'/>
+                        </a>
+                    </Footer>
                 </Layout>
             </Layout>
         );

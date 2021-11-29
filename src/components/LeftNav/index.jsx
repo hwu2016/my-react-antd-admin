@@ -3,6 +3,8 @@ import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import menuList from '../../config/menuConfig';
 import PubSub from 'pubsub-js'
+import memoryUtils from '../../utils/memoryUtils'
+// import { reqRoleList } from '../../api';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -12,6 +14,19 @@ export default class LeftNav extends Component {
         collapsed: false,
     };
 
+    hasAuth = (item) => {
+        const { key } = item
+
+        const menus = memoryUtils.user.menus
+        const username = memoryUtils.user.username
+        if (username === 'admin' || menus.indexOf(key) !== -1) {
+            return true
+        } else if (item.children) {
+            return !!item.children.find(child => menus.indexOf(child.key) !== -1)
+        }
+        return false
+    }
+
     onCollapse = collapsed => {
         this.setState({ collapsed });
     };
@@ -19,32 +34,36 @@ export default class LeftNav extends Component {
     //动态生成Menu，map+递归 （也可以通过reduce+递归）
     createMenuNodes = (menuList) => {
         return menuList.map(item => {
-            if (item.children) {
-                const child = item.children.find(child => {
-                    const regExp = new RegExp('^' + child.key + '+')
-                    return window.location.pathname.match(regExp)
-                }) 
-                if (child) {
-                    this.openKey = item.key
+            if (this.hasAuth(item)) {
+                if (item.children) {
+                    const child = item.children.find(child => {
+                        const regExp = new RegExp('^' + child.key + '+')
+                        return window.location.pathname.match(regExp)
+                    })
+                    if (child) {
+                        this.openKey = item.key
+                    }
+                    return (
+                        (
+                            <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                                {this.createMenuNodes(item.children)}
+                            </SubMenu>
+                        )
+                    )
+                } else {
+                    return (
+                        (
+                            <Menu.Item key={item.key} icon={item.icon}>
+                                <Link to={item.key} onClick={this.saveMenuItem(item)}>{item.title}</Link>
+                            </Menu.Item>
+                        )
+                    )
                 }
-                return (
-                    (
-                        <SubMenu key={item.key} icon={item.icon} title={item.title}>
-                            {this.createMenuNodes(item.children)}
-                        </SubMenu>
-                    )
-                )
             } else {
-                return (
-                    (
-                        <Menu.Item key={item.key} icon={item.icon}>
-                            <Link to={item.key} onClick={this.saveMenuItem(item)}>{item.title}</Link>
-                        </Menu.Item>
-                    )
-                )
+                return null
             }
         })
-    }   
+    }
 
     saveMenuItem = (item) => {
         return () => {
@@ -53,16 +72,17 @@ export default class LeftNav extends Component {
     }
 
     render() {
+        console.log(memoryUtils.user);
         const menuNodes = this.createMenuNodes(menuList)
         const { collapsed } = this.state
         const { openKey } = this
         const curPath = window.location.pathname
         let defaultPath //确定默认路径
-        if (curPath === '/'){
+        if (curPath === '/') {
             defaultPath = '/home'
         } else {
             defaultPath = '/'
-            for (let i = 1; i < curPath.length; i++){
+            for (let i = 1; i < curPath.length; i++) {
                 if (curPath[i] === '/') break //即使确定到二级路由，也能显示一级路由的path
                 defaultPath += curPath[i]
             }
